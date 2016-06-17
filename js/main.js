@@ -5,15 +5,39 @@ const target = document.getElementById('root');
 
 let recipes = (typeof localStorage["recipeBox"] != "undefined") ?
   JSON.parse(localStorage["recipeBox"]) :
-  [{name: "French Toast", ingredients: ["Bread", "Eggs", "Milk"]},
-   {name: "PB&J", ingredients: ["Bread", "Peanut Butter", "Jelly"]}
+  [{key: 0, name: "French Toast", ingredients: ["Bread", "Eggs", "Milk"]},
+   {key: 1, name: "PB&J", ingredients: ["Bread", "Peanut Butter", "Jelly"]}
   ]
 
 class Layout extends React.Component {
   render(){
     return(
-      <h1>Hello World</h1>
+      <RecipeList />
     )
+  }
+}
+
+class RecipeList extends React.Component {
+
+  render(){
+    console.log(recipes[0].index);
+    return (
+      <div>
+      { recipes.map(recipe => <Recipe key={recipe.key} name={recipe.name} ingredients={recipe.ingredients} />) }
+      </div>
+    )
+  }
+}
+
+class Recipe extends React.Component {
+  render(){
+    console.log(this.props.key)
+    return(
+      <div>
+        <h1>{this.props.name} {this.props.key}</h1>
+      </div>
+    )
+
   }
 }
 

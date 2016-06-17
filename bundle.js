@@ -66,7 +66,7 @@
 
 	var target = document.getElementById('root');
 
-	var recipes = typeof localStorage["recipeBox"] != "undefined" ? JSON.parse(localStorage["recipeBox"]) : [{ name: "French Toast", ingredients: ["Bread", "Eggs", "Milk"] }, { name: "PB&J", ingredients: ["Bread", "Peanut Butter", "Jelly"] }];
+	var recipes = typeof localStorage["recipeBox"] != "undefined" ? JSON.parse(localStorage["recipeBox"]) : [{ key: 0, name: "French Toast", ingredients: ["Bread", "Eggs", "Milk"] }, { key: 1, name: "PB&J", ingredients: ["Bread", "Peanut Butter", "Jelly"] }];
 
 	var Layout = function (_React$Component) {
 	  _inherits(Layout, _React$Component);
@@ -80,15 +80,67 @@
 	  _createClass(Layout, [{
 	    key: 'render',
 	    value: function render() {
-	      return _react2.default.createElement(
-	        'h1',
-	        null,
-	        'Hello World'
-	      );
+	      return _react2.default.createElement(RecipeList, null);
 	    }
 	  }]);
 
 	  return Layout;
+	}(_react2.default.Component);
+
+	var RecipeList = function (_React$Component2) {
+	  _inherits(RecipeList, _React$Component2);
+
+	  function RecipeList() {
+	    _classCallCheck(this, RecipeList);
+
+	    return _possibleConstructorReturn(this, Object.getPrototypeOf(RecipeList).apply(this, arguments));
+	  }
+
+	  _createClass(RecipeList, [{
+	    key: 'render',
+	    value: function render() {
+	      console.log(recipes[0].index);
+	      return _react2.default.createElement(
+	        'div',
+	        null,
+	        recipes.map(function (recipe) {
+	          return _react2.default.createElement(Recipe, { key: recipe.key, name: recipe.name, ingredients: recipe.ingredients });
+	        })
+	      );
+	    }
+	  }]);
+
+	  return RecipeList;
+	}(_react2.default.Component);
+
+	var Recipe = function (_React$Component3) {
+	  _inherits(Recipe, _React$Component3);
+
+	  function Recipe() {
+	    _classCallCheck(this, Recipe);
+
+	    return _possibleConstructorReturn(this, Object.getPrototypeOf(Recipe).apply(this, arguments));
+	  }
+
+	  _createClass(Recipe, [{
+	    key: 'render',
+	    value: function render() {
+	      console.log(this.props.key);
+	      return _react2.default.createElement(
+	        'div',
+	        null,
+	        _react2.default.createElement(
+	          'h1',
+	          null,
+	          this.props.name,
+	          ' ',
+	          this.props.key
+	        )
+	      );
+	    }
+	  }]);
+
+	  return Recipe;
 	}(_react2.default.Component);
 
 	function update() {
