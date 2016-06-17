@@ -1,3 +1,5 @@
+require('../css/master.sass');
+
 import React from 'react';
 import ReactDOM from 'react-dom';
 
@@ -20,9 +22,9 @@ class Layout extends React.Component {
 class RecipeList extends React.Component {
 
   render(){
-    console.log(recipes[0].index);
+    console.log(recipes[0]);
     return (
-      <div>
+      <div className="recipeList">
       { recipes.map(recipe => <Recipe key={recipe.key} name={recipe.name} ingredients={recipe.ingredients} />) }
       </div>
     )
@@ -33,7 +35,7 @@ class Recipe extends React.Component {
   render(){
     console.log(this.props.key)
     return(
-      <div>
+      <div className="recipe">
         <h1>{this.props.name} {this.props.key}</h1>
       </div>
     )
