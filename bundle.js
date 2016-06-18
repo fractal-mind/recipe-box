@@ -82,15 +82,52 @@
 	  _createClass(Layout, [{
 	    key: 'render',
 	    value: function render() {
-	      return _react2.default.createElement(RecipeList, null);
+	      return _react2.default.createElement(
+	        'div',
+	        null,
+	        _react2.default.createElement(Header, null),
+	        _react2.default.createElement(RecipeList, null)
+	      );
 	    }
 	  }]);
 
 	  return Layout;
 	}(_react2.default.Component);
 
-	var RecipeList = function (_React$Component2) {
-	  _inherits(RecipeList, _React$Component2);
+	var Header = function (_React$Component2) {
+	  _inherits(Header, _React$Component2);
+
+	  function Header() {
+	    _classCallCheck(this, Header);
+
+	    return _possibleConstructorReturn(this, Object.getPrototypeOf(Header).apply(this, arguments));
+	  }
+
+	  _createClass(Header, [{
+	    key: 'render',
+	    value: function render() {
+	      return _react2.default.createElement(
+	        'div',
+	        { className: 'header' },
+	        _react2.default.createElement(
+	          'p',
+	          { className: 'headerOne' },
+	          'Recipe'
+	        ),
+	        _react2.default.createElement(
+	          'p',
+	          { className: 'headerTwo' },
+	          'Box'
+	        )
+	      );
+	    }
+	  }]);
+
+	  return Header;
+	}(_react2.default.Component);
+
+	var RecipeList = function (_React$Component3) {
+	  _inherits(RecipeList, _React$Component3);
 
 	  function RecipeList() {
 	    _classCallCheck(this, RecipeList);
@@ -101,7 +138,6 @@
 	  _createClass(RecipeList, [{
 	    key: 'render',
 	    value: function render() {
-	      console.log(recipes[0]);
 	      return _react2.default.createElement(
 	        'div',
 	        { className: 'recipeList' },
@@ -115,8 +151,8 @@
 	  return RecipeList;
 	}(_react2.default.Component);
 
-	var Recipe = function (_React$Component3) {
-	  _inherits(Recipe, _React$Component3);
+	var Recipe = function (_React$Component4) {
+	  _inherits(Recipe, _React$Component4);
 
 	  function Recipe() {
 	    _classCallCheck(this, Recipe);
@@ -127,7 +163,6 @@
 	  _createClass(Recipe, [{
 	    key: 'render',
 	    value: function render() {
-	      console.log(this.props.key);
 	      return _react2.default.createElement(
 	        'div',
 	        { className: 'recipe' },
@@ -19820,7 +19855,7 @@
 
 
 	// module
-	exports.push([module.id, "", ""]);
+	exports.push([module.id, "body {\n  font-family: 'Open Sans', sans-serif; }\n\n.container {\n  padding-right: 15px;\n  padding-left: 15px;\n  margin-right: auto;\n  margin-left: auto;\n  position: relative; }\n\n@media (min-width: 768px) {\n  .container {\n    width: 750px; } }\n\n@media (min-width: 992px) {\n  .container {\n    width: 970px; } }\n\n@media (min-width: 1200px) {\n  .container {\n    width: 1170px; } }\n\n.header {\n  position: absolute;\n  font-size: 75px;\n  padding: 0px;\n  font-family: 'Cairo', sans-serif;\n  top: 0px; }\n\n.headerTwo {\n  position: absolute;\n  top: 0.8em; }\n\n.recipe {\n  font-family: 'Cairo', sans-serif;\n  border-style: solid;\n  border-width: 1px;\n  margin-left: auto;\n  margin-right: auto; }\n\n.recipeList {\n  position: absolute;\n  top: 20em; }\n", ""]);
 
 	// exports
 

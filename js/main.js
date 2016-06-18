@@ -14,7 +14,21 @@ let recipes = (typeof localStorage["recipeBox"] != "undefined") ?
 class Layout extends React.Component {
   render(){
     return(
+      <div >
+      <Header />
       <RecipeList />
+      </div>
+    )
+  }
+}
+
+class Header extends React.Component {
+  render() {
+    return (
+      <div className="header">
+        <p className="headerOne">Recipe</p>
+        <p className="headerTwo">Box</p>
+      </div>
     )
   }
 }
@@ -22,7 +36,6 @@ class Layout extends React.Component {
 class RecipeList extends React.Component {
 
   render(){
-    console.log(recipes[0]);
     return (
       <div className="recipeList">
       { recipes.map(recipe => <Recipe key={recipe.key} name={recipe.name} ingredients={recipe.ingredients} />) }
@@ -33,7 +46,6 @@ class RecipeList extends React.Component {
 
 class Recipe extends React.Component {
   render(){
-    console.log(this.props.key)
     return(
       <div className="recipe">
         <h1>{this.props.name} {this.props.key}</h1>

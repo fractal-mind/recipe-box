@@ -1,4 +1,43 @@
 body
-  
+ font-family: 'Open Sans', sans-serif;
+
+.container
+  padding-right: 15px;
+  padding-left: 15px;
+  margin-right: auto;
+  margin-left: auto;
+  position: relative;
+
+@media (min-width: 768px)
+  .container
+    width: 750px;
+
+@media (min-width: 992px)
+  .container
+    width: 970px;
+
+@media (min-width: 1200px)
+  .container
+    width: 1170px;
+
+.header
+  position: absolute
+  font-size: 75px;
+  padding: 0px;
+  font-family: 'Cairo', sans-serif;
+  top: 0px;
+
+.headerTwo
+  position: absolute;
+  top: 0.8em;
 
 .recipe
+   font-family: 'Cairo', sans-serif;
+   border-style: solid;
+   border-width: 1px;
+   margin-left: auto;
+   margin-right: auto;
+
+.recipeList
+  position: absolute;
+  top: 20em;
