@@ -27,8 +27,17 @@ class Header extends React.Component {
     return (
       <div className="header">
         <p className="headerOne">Recipe</p>
-        <p className="headerTwo">Box</p>
+        <p className="headerTwo">Box.</p>
+        <AddButton />
       </div>
+    )
+  }
+}
+
+class AddButton extends React.Component {
+  render() {
+    return (
+       <i className="addButton material-icons" onClick={() => {console.log("clicked")}}>add_circle_outline</i>
     )
   }
 }
@@ -48,7 +57,7 @@ class Recipe extends React.Component {
   render(){
     return(
       <div className="recipe">
-        <h1>{this.props.name} {this.props.key}</h1>
+        <p className="recipeName">{this.props.name}</p>
       </div>
     )
 

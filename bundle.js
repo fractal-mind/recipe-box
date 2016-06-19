@@ -117,8 +117,9 @@
 	        _react2.default.createElement(
 	          'p',
 	          { className: 'headerTwo' },
-	          'Box'
-	        )
+	          'Box.'
+	        ),
+	        _react2.default.createElement(AddButton, null)
 	      );
 	    }
 	  }]);
@@ -126,8 +127,33 @@
 	  return Header;
 	}(_react2.default.Component);
 
-	var RecipeList = function (_React$Component3) {
-	  _inherits(RecipeList, _React$Component3);
+	var AddButton = function (_React$Component3) {
+	  _inherits(AddButton, _React$Component3);
+
+	  function AddButton() {
+	    _classCallCheck(this, AddButton);
+
+	    return _possibleConstructorReturn(this, Object.getPrototypeOf(AddButton).apply(this, arguments));
+	  }
+
+	  _createClass(AddButton, [{
+	    key: 'render',
+	    value: function render() {
+	      return _react2.default.createElement(
+	        'i',
+	        { className: 'addButton material-icons', onClick: function onClick() {
+	            console.log("clicked");
+	          } },
+	        'add_circle_outline'
+	      );
+	    }
+	  }]);
+
+	  return AddButton;
+	}(_react2.default.Component);
+
+	var RecipeList = function (_React$Component4) {
+	  _inherits(RecipeList, _React$Component4);
 
 	  function RecipeList() {
 	    _classCallCheck(this, RecipeList);
@@ -151,8 +177,8 @@
 	  return RecipeList;
 	}(_react2.default.Component);
 
-	var Recipe = function (_React$Component4) {
-	  _inherits(Recipe, _React$Component4);
+	var Recipe = function (_React$Component5) {
+	  _inherits(Recipe, _React$Component5);
 
 	  function Recipe() {
 	    _classCallCheck(this, Recipe);
@@ -167,11 +193,9 @@
 	        'div',
 	        { className: 'recipe' },
 	        _react2.default.createElement(
-	          'h1',
-	          null,
-	          this.props.name,
-	          ' ',
-	          this.props.key
+	          'p',
+	          { className: 'recipeName' },
+	          this.props.name
 	        )
 	      );
 	    }
@@ -19855,7 +19879,7 @@
 
 
 	// module
-	exports.push([module.id, "body {\n  font-family: 'Open Sans', sans-serif; }\n\n.container {\n  padding-right: 15px;\n  padding-left: 15px;\n  margin-right: auto;\n  margin-left: auto;\n  position: relative; }\n\n@media (min-width: 768px) {\n  .container {\n    width: 750px; } }\n\n@media (min-width: 992px) {\n  .container {\n    width: 970px; } }\n\n@media (min-width: 1200px) {\n  .container {\n    width: 1170px; } }\n\n.header {\n  position: absolute;\n  font-size: 75px;\n  padding: 0px;\n  font-family: 'Cairo', sans-serif;\n  top: 0px; }\n\n.headerTwo {\n  position: absolute;\n  top: 0.8em; }\n\n.recipe {\n  font-family: 'Cairo', sans-serif;\n  border-style: solid;\n  border-width: 1px;\n  margin-left: auto;\n  margin-right: auto; }\n\n.recipeList {\n  position: absolute;\n  top: 20em; }\n", ""]);
+	exports.push([module.id, "body {\n  font-family: 'Open Sans', sans-serif; }\n\n.container {\n  padding-right: 15px;\n  padding-left: 15px;\n  margin-right: auto;\n  margin-left: auto;\n  position: relative; }\n\n@media (min-width: 768px) {\n  .container {\n    width: 750px; } }\n\n@media (min-width: 992px) {\n  .container {\n    width: 970px; } }\n\n@media (min-width: 1200px) {\n  .container {\n    width: 1170px; } }\n\n.header {\n  position: absolute;\n  font-size: 100px;\n  padding: 0px;\n  font-family: 'Cairo', sans-serif;\n  font-weight: 700;\n  width: 100%; }\n\n.headerOne {\n  position: absolute;\n  top: -0.8em; }\n\n.headerTwo {\n  position: absolute;\n  top: -0.1em; }\n\n.addButton {\n  position: absolute;\n  font-size: 75px;\n  left: 11.5em;\n  top: 1.6em; }\n\n.recipe {\n  border-style: solid;\n  border-width: 1px;\n  margin: 1em 0em;\n  border-color: #EEEEEE;\n  background-color: #EEEEEE;\n  box-shadow: 0px 03px 10px #888888; }\n\n.recipeName {\n  font-size: 30px;\n  margin-left: 5%; }\n\n.recipeList {\n  position: absolute;\n  top: 16em;\n  width: 100%; }\n", ""]);
 
 	// exports
 
