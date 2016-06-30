@@ -40,7 +40,6 @@ class AddButton extends React.Component {
     let addCard = () => {
       currentKey++;
       recipes.splice(0, 0, {key: currentKey, name: "New Recipe", ingredients: [], expand: false});
-      console.log(recipes.length);
       update();
     }
     return (
@@ -76,7 +75,7 @@ class Recipe extends React.Component {
     }
     if (this.props.expand === true) {
       return (
-        <div className="recipeExpand" onClick={() => {expandCard()}} >
+        <div className="recipe recipeExpand" onClick={() => {expandCard()}} >
           <p className="recipeName">{this.props.name}</p>
         </div>
       )

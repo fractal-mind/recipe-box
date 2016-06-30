@@ -143,7 +143,6 @@
 	      var addCard = function addCard() {
 	        currentKey++;
 	        recipes.splice(0, 0, { key: currentKey, name: "New Recipe", ingredients: [], expand: false });
-	        console.log(recipes.length);
 	        update();
 	      };
 	      return _react2.default.createElement(
@@ -212,7 +211,7 @@
 	      if (this.props.expand === true) {
 	        return _react2.default.createElement(
 	          'div',
-	          { className: 'recipeExpand', onClick: function onClick() {
+	          { className: 'recipe recipeExpand', onClick: function onClick() {
 	              expandCard();
 	            } },
 	          _react2.default.createElement(
@@ -19914,7 +19913,7 @@
 
 
 	// module
-	exports.push([module.id, "body {\n  font-family: 'Open Sans', sans-serif; }\n\n.container {\n  padding-right: 15px;\n  padding-left: 15px;\n  margin-right: auto;\n  margin-left: auto;\n  position: relative; }\n\n@media (min-width: 768px) {\n  .container {\n    width: 750px; } }\n\n@media (min-width: 992px) {\n  .container {\n    width: 970px; } }\n\n@media (min-width: 1200px) {\n  .container {\n    width: 1170px; } }\n\n.header {\n  position: absolute;\n  font-size: 100px;\n  padding: 0px;\n  font-family: 'Cairo', sans-serif;\n  font-weight: 700;\n  width: 100%; }\n\n.headerOne {\n  position: absolute;\n  top: -0.8em; }\n\n.headerTwo {\n  position: absolute;\n  top: -0.1em; }\n\n.addButton {\n  position: absolute;\n  font-size: 75px;\n  left: 13em;\n  top: 1.6em; }\n\n.recipe {\n  border-style: solid;\n  border-width: 1px;\n  margin: 1em 0em;\n  border-color: #EEEEEE;\n  background-color: #EEEEEE;\n  box-shadow: 0px 03px 10px #888888; }\n\n.recipeExpand {\n  border-style: solid;\n  border-width: 1px;\n  margin: 1em 0em;\n  border-color: #EEEEEE;\n  background-color: #EEEEEE;\n  box-shadow: 0px 03px 10px #888888;\n  height: 30em; }\n\n.recipeName {\n  font-size: 30px;\n  margin-left: 5%; }\n\n.recipeList {\n  position: absolute;\n  top: 20em;\n  width: 100%; }\n", ""]);
+	exports.push([module.id, "body {\n  font-family: 'Open Sans', sans-serif;\n  background-image: url(\"/css/china.png\"); }\n\n.container {\n  padding-right: 15px;\n  padding-left: 15px;\n  margin-right: auto;\n  margin-left: auto;\n  position: relative; }\n\n@media (min-width: 768px) {\n  .container {\n    width: 750px; } }\n\n@media (min-width: 992px) {\n  .container {\n    width: 970px; } }\n\n@media (min-width: 1200px) {\n  .container {\n    width: 1170px; } }\n\n.header {\n  position: absolute;\n  font-size: 100px;\n  padding: 0px;\n  font-family: 'Cairo', sans-serif;\n  font-weight: 700;\n  left: 5%;\n  width: 100%; }\n\n.headerOne {\n  position: absolute;\n  top: -0.8em; }\n\n.headerTwo {\n  position: absolute;\n  top: -0.1em; }\n\n.addButton {\n  position: absolute;\n  font-size: 75px;\n  left: 85%;\n  top: 1.6em; }\n\n.recipe {\n  border-style: solid;\n  border-width: 1px;\n  margin: 1em 0em;\n  border-color: #FFFFFF;\n  background-color: #FFFFFF;\n  box-shadow: 0px 03px 10px #888888; }\n\n.recipeExpand {\n  height: 30em; }\n\n.recipeName {\n  font-size: 30px;\n  margin-left: 5%; }\n\n.recipeList {\n  position: absolute;\n  top: 20em;\n  width: 100%; }\n", ""]);
 
 	// exports
 
