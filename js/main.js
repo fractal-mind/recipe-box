@@ -8,8 +8,9 @@ const target = document.getElementById('root');
 let recipes = (typeof localStorage["recipeBox"] != "undefined") ?
   JSON.parse(localStorage["recipeBox"]) :
   [{key: 0, name: "French Toast", ingredients: ["Bread", "Eggs", "Milk"], expand: false},
-   {key: 1, name: "PB&J", ingredients: ["Bread", "Peanut Butter", "Jelly"], expand: true}
+   {key: 1, name: "PB&J", ingredients: ["Bread", "Peanut Butter", "Jelly"], expand: false}
   ]
+let currentKey = (recipes.length - 1);
 
 class Layout extends React.Component {
   render(){
@@ -36,8 +37,14 @@ class Header extends React.Component {
 
 class AddButton extends React.Component {
   render() {
+    let addCard = () => {
+      currentKey++;
+      recipes.splice(0, 0, {key: currentKey, name: "New Recipe", ingredients: [], expand: false});
+      console.log(recipes.length);
+      update();
+    }
     return (
-       <i className="addButton material-icons" onClick={() => {console.log("clicked")}}>add_circle_outline</i>
+       <i className="addButton material-icons" onClick={() => {addCard()}}>add_circle_outline</i>
     )
   }
 }
@@ -55,7 +62,7 @@ class RecipeList extends React.Component {
 class Recipe extends React.Component {
 
   render(){
-    var expandCard = () => {
+    let expandCard = () => {
       if (recipes[this.props.index].expand === true) {
         recipes[this.props.index].expand = false;
         console.log("Collapsed");

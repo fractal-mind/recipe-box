@@ -68,7 +68,8 @@
 
 	var target = document.getElementById('root');
 
-	var recipes = typeof localStorage["recipeBox"] != "undefined" ? JSON.parse(localStorage["recipeBox"]) : [{ key: 0, name: "French Toast", ingredients: ["Bread", "Eggs", "Milk"], expand: false }, { key: 1, name: "PB&J", ingredients: ["Bread", "Peanut Butter", "Jelly"], expand: true }];
+	var recipes = typeof localStorage["recipeBox"] != "undefined" ? JSON.parse(localStorage["recipeBox"]) : [{ key: 0, name: "French Toast", ingredients: ["Bread", "Eggs", "Milk"], expand: false }, { key: 1, name: "PB&J", ingredients: ["Bread", "Peanut Butter", "Jelly"], expand: false }];
+	var currentKey = recipes.length - 1;
 
 	var Layout = function (_React$Component) {
 	  _inherits(Layout, _React$Component);
@@ -139,10 +140,16 @@
 	  _createClass(AddButton, [{
 	    key: 'render',
 	    value: function render() {
+	      var addCard = function addCard() {
+	        currentKey++;
+	        recipes.splice(0, 0, { key: currentKey, name: "New Recipe", ingredients: [], expand: false });
+	        console.log(recipes.length);
+	        update();
+	      };
 	      return _react2.default.createElement(
 	        'i',
 	        { className: 'addButton material-icons', onClick: function onClick() {
-	            console.log("clicked");
+	            addCard();
 	          } },
 	        'add_circle_outline'
 	      );
