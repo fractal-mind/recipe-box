@@ -68,7 +68,7 @@
 
 	var target = document.getElementById('root');
 
-	var recipes = typeof localStorage["recipeBox"] != "undefined" ? JSON.parse(localStorage["recipeBox"]) : [{ key: 0, name: "French Toast", ingredients: ["Bread", "Eggs", "Milk"] }, { key: 1, name: "PB&J", ingredients: ["Bread", "Peanut Butter", "Jelly"] }];
+	var recipes = typeof localStorage["recipeBox"] != "undefined" ? JSON.parse(localStorage["recipeBox"]) : [{ key: 0, name: "French Toast", ingredients: ["Bread", "Eggs", "Milk"], expand: false }, { key: 1, name: "PB&J", ingredients: ["Bread", "Peanut Butter", "Jelly"], expand: true }];
 
 	var Layout = function (_React$Component) {
 	  _inherits(Layout, _React$Component);
@@ -168,7 +168,7 @@
 	        'div',
 	        { className: 'recipeList' },
 	        recipes.map(function (recipe) {
-	          return _react2.default.createElement(Recipe, { key: recipe.key, name: recipe.name, ingredients: recipe.ingredients });
+	          return _react2.default.createElement(Recipe, { key: recipe.key, name: recipe.name, ingredients: recipe.ingredients, expand: recipe.expand, index: recipes.indexOf(recipe) });
 	        })
 	      );
 	    }
@@ -189,15 +189,44 @@
 	  _createClass(Recipe, [{
 	    key: 'render',
 	    value: function render() {
-	      return _react2.default.createElement(
-	        'div',
-	        { className: 'recipe' },
-	        _react2.default.createElement(
-	          'p',
-	          { className: 'recipeName' },
-	          this.props.name
-	        )
-	      );
+	      var _this6 = this;
+
+	      var expandCard = function expandCard() {
+	        if (recipes[_this6.props.index].expand === true) {
+	          recipes[_this6.props.index].expand = false;
+	          console.log("Collapsed");
+	          update();
+	        } else {
+	          recipes[_this6.props.index].expand = true;
+	          console.log("Expanded");
+	          update();
+	        }
+	      };
+	      if (this.props.expand === true) {
+	        return _react2.default.createElement(
+	          'div',
+	          { className: 'recipeExpand', onClick: function onClick() {
+	              expandCard();
+	            } },
+	          _react2.default.createElement(
+	            'p',
+	            { className: 'recipeName' },
+	            this.props.name
+	          )
+	        );
+	      } else {
+	        return _react2.default.createElement(
+	          'div',
+	          { className: 'recipe', onClick: function onClick() {
+	              expandCard();
+	            } },
+	          _react2.default.createElement(
+	            'p',
+	            { className: 'recipeName' },
+	            this.props.name
+	          )
+	        );
+	      }
 	    }
 	  }]);
 
@@ -206,10 +235,9 @@
 
 	function update() {
 	  localStorage.setItem("recipeBox", JSON.stringify(recipes));
+	  _reactDom2.default.render(_react2.default.createElement(Layout, null), target);
 	}
 	update();
-
-	_reactDom2.default.render(_react2.default.createElement(Layout, null), target);
 
 /***/ },
 /* 1 */
@@ -19879,7 +19907,7 @@
 
 
 	// module
-	exports.push([module.id, "body {\n  font-family: 'Open Sans', sans-serif; }\n\n.container {\n  padding-right: 15px;\n  padding-left: 15px;\n  margin-right: auto;\n  margin-left: auto;\n  position: relative; }\n\n@media (min-width: 768px) {\n  .container {\n    width: 750px; } }\n\n@media (min-width: 992px) {\n  .container {\n    width: 970px; } }\n\n@media (min-width: 1200px) {\n  .container {\n    width: 1170px; } }\n\n.header {\n  position: absolute;\n  font-size: 100px;\n  padding: 0px;\n  font-family: 'Cairo', sans-serif;\n  font-weight: 700;\n  width: 100%; }\n\n.headerOne {\n  position: absolute;\n  top: -0.8em; }\n\n.headerTwo {\n  position: absolute;\n  top: -0.1em; }\n\n.addButton {\n  position: absolute;\n  font-size: 75px;\n  left: 11.5em;\n  top: 1.6em; }\n\n.recipe {\n  border-style: solid;\n  border-width: 1px;\n  margin: 1em 0em;\n  border-color: #EEEEEE;\n  background-color: #EEEEEE;\n  box-shadow: 0px 03px 10px #888888; }\n\n.recipeName {\n  font-size: 30px;\n  margin-left: 5%; }\n\n.recipeList {\n  position: absolute;\n  top: 16em;\n  width: 100%; }\n", ""]);
+	exports.push([module.id, "body {\n  font-family: 'Open Sans', sans-serif; }\n\n.container {\n  padding-right: 15px;\n  padding-left: 15px;\n  margin-right: auto;\n  margin-left: auto;\n  position: relative; }\n\n@media (min-width: 768px) {\n  .container {\n    width: 750px; } }\n\n@media (min-width: 992px) {\n  .container {\n    width: 970px; } }\n\n@media (min-width: 1200px) {\n  .container {\n    width: 1170px; } }\n\n.header {\n  position: absolute;\n  font-size: 100px;\n  padding: 0px;\n  font-family: 'Cairo', sans-serif;\n  font-weight: 700;\n  width: 100%; }\n\n.headerOne {\n  position: absolute;\n  top: -0.8em; }\n\n.headerTwo {\n  position: absolute;\n  top: -0.1em; }\n\n.addButton {\n  position: absolute;\n  font-size: 75px;\n  left: 13em;\n  top: 1.6em; }\n\n.recipe {\n  border-style: solid;\n  border-width: 1px;\n  margin: 1em 0em;\n  border-color: #EEEEEE;\n  background-color: #EEEEEE;\n  box-shadow: 0px 03px 10px #888888; }\n\n.recipeExpand {\n  border-style: solid;\n  border-width: 1px;\n  margin: 1em 0em;\n  border-color: #EEEEEE;\n  background-color: #EEEEEE;\n  box-shadow: 0px 03px 10px #888888;\n  height: 30em; }\n\n.recipeName {\n  font-size: 30px;\n  margin-left: 5%; }\n\n.recipeList {\n  position: absolute;\n  top: 20em;\n  width: 100%; }\n", ""]);
 
 	// exports
 
