@@ -142,7 +142,7 @@
 	    value: function render() {
 	      var addCard = function addCard() {
 	        currentKey++;
-	        recipes.splice(0, 0, { key: currentKey, name: "New Recipe", ingredients: [], expand: false });
+	        recipes.splice(0, 0, { key: currentKey, name: "New Recipe", ingredients: ["Add some Ingredients!"], expand: false });
 	        update();
 	      };
 	      return _react2.default.createElement(
@@ -158,8 +158,54 @@
 	  return AddButton;
 	}(_react2.default.Component);
 
-	var RecipeList = function (_React$Component4) {
-	  _inherits(RecipeList, _React$Component4);
+	var EditButton = function (_React$Component4) {
+	  _inherits(EditButton, _React$Component4);
+
+	  function EditButton() {
+	    _classCallCheck(this, EditButton);
+
+	    return _possibleConstructorReturn(this, Object.getPrototypeOf(EditButton).apply(this, arguments));
+	  }
+
+	  _createClass(EditButton, [{
+	    key: 'render',
+	    value: function render() {
+	      return _react2.default.createElement(
+	        'i',
+	        { className: 'editButton material-icons' },
+	        'list'
+	      );
+	    }
+	  }]);
+
+	  return EditButton;
+	}(_react2.default.Component);
+
+	var DeleteButton = function (_React$Component5) {
+	  _inherits(DeleteButton, _React$Component5);
+
+	  function DeleteButton() {
+	    _classCallCheck(this, DeleteButton);
+
+	    return _possibleConstructorReturn(this, Object.getPrototypeOf(DeleteButton).apply(this, arguments));
+	  }
+
+	  _createClass(DeleteButton, [{
+	    key: 'render',
+	    value: function render() {
+	      return _react2.default.createElement(
+	        'i',
+	        { className: 'deleteButton material-icons' },
+	        'delete'
+	      );
+	    }
+	  }]);
+
+	  return DeleteButton;
+	}(_react2.default.Component);
+
+	var RecipeList = function (_React$Component6) {
+	  _inherits(RecipeList, _React$Component6);
 
 	  function RecipeList() {
 	    _classCallCheck(this, RecipeList);
@@ -183,8 +229,8 @@
 	  return RecipeList;
 	}(_react2.default.Component);
 
-	var Recipe = function (_React$Component5) {
-	  _inherits(Recipe, _React$Component5);
+	var Recipe = function (_React$Component7) {
+	  _inherits(Recipe, _React$Component7);
 
 	  function Recipe() {
 	    _classCallCheck(this, Recipe);
@@ -195,19 +241,21 @@
 	  _createClass(Recipe, [{
 	    key: 'render',
 	    value: function render() {
-	      var _this6 = this;
+	      var _this8 = this;
 
+	      //Handles toggling of card size
 	      var expandCard = function expandCard() {
-	        if (recipes[_this6.props.index].expand === true) {
-	          recipes[_this6.props.index].expand = false;
+	        if (recipes[_this8.props.index].expand === true) {
+	          recipes[_this8.props.index].expand = false;
 	          console.log("Collapsed");
 	          update();
 	        } else {
-	          recipes[_this6.props.index].expand = true;
+	          recipes[_this8.props.index].expand = true;
 	          console.log("Expanded");
 	          update();
 	        }
 	      };
+
 	      if (this.props.expand === true) {
 	        return _react2.default.createElement(
 	          'div',
@@ -218,7 +266,10 @@
 	            'p',
 	            { className: 'recipeName' },
 	            this.props.name
-	          )
+	          ),
+	          _react2.default.createElement(IngredientList, { list: this.props.ingredients }),
+	          _react2.default.createElement(EditButton, null),
+	          _react2.default.createElement(DeleteButton, null)
 	        );
 	      } else {
 	        return _react2.default.createElement(
@@ -237,6 +288,66 @@
 	  }]);
 
 	  return Recipe;
+	}(_react2.default.Component);
+
+	var IngredientList = function (_React$Component8) {
+	  _inherits(IngredientList, _React$Component8);
+
+	  function IngredientList() {
+	    _classCallCheck(this, IngredientList);
+
+	    return _possibleConstructorReturn(this, Object.getPrototypeOf(IngredientList).apply(this, arguments));
+	  }
+
+	  _createClass(IngredientList, [{
+	    key: 'render',
+	    value: function render() {
+	      var _this10 = this;
+
+	      return _react2.default.createElement(
+	        'div',
+	        null,
+	        _react2.default.createElement(
+	          'p',
+	          { className: 'ingredientHeading' },
+	          'Ingredients'
+	        ),
+	        _react2.default.createElement(
+	          'ul',
+	          { className: 'ingredientList' },
+	          this.props.list.map(function (item) {
+	            return _react2.default.createElement(Ingredient, { item: item, key: _this10.props.list.indexOf(item) });
+	          })
+	        )
+	      );
+	    }
+	  }]);
+
+	  return IngredientList;
+	}(_react2.default.Component);
+
+	var Ingredient = function (_React$Component9) {
+	  _inherits(Ingredient, _React$Component9);
+
+	  function Ingredient() {
+	    _classCallCheck(this, Ingredient);
+
+	    return _possibleConstructorReturn(this, Object.getPrototypeOf(Ingredient).apply(this, arguments));
+	  }
+
+	  _createClass(Ingredient, [{
+	    key: 'render',
+	    value: function render() {
+	      console.log("Rendering " + this.props.item);
+	      return _react2.default.createElement(
+	        'li',
+	        { className: 'ingredient' },
+	        this.props.item
+	      );
+	    }
+	  }]);
+
+	  return Ingredient;
 	}(_react2.default.Component);
 
 	function update() {
@@ -19913,7 +20024,7 @@
 
 
 	// module
-	exports.push([module.id, "body {\n  font-family: 'Open Sans', sans-serif;\n  background-image: url(\"/css/china.png\"); }\n\n.container {\n  padding-right: 15px;\n  padding-left: 15px;\n  margin-right: auto;\n  margin-left: auto;\n  position: relative; }\n\n@media (min-width: 768px) {\n  .container {\n    width: 750px; } }\n\n@media (min-width: 992px) {\n  .container {\n    width: 970px; } }\n\n@media (min-width: 1200px) {\n  .container {\n    width: 1170px; } }\n\n.header {\n  position: absolute;\n  font-size: 100px;\n  padding: 0px;\n  font-family: 'Cairo', sans-serif;\n  font-weight: 700;\n  left: 5%;\n  width: 100%; }\n\n.headerOne {\n  position: absolute;\n  top: -0.8em; }\n\n.headerTwo {\n  position: absolute;\n  top: -0.1em; }\n\n.addButton {\n  position: absolute;\n  font-size: 75px;\n  left: 85%;\n  top: 1.6em; }\n\n.recipe {\n  border-style: solid;\n  border-width: 1px;\n  margin: 1em 0em;\n  border-color: #FFFFFF;\n  background-color: #FFFFFF;\n  box-shadow: 0px 03px 10px #888888; }\n\n.recipeExpand {\n  height: 30em; }\n\n.recipeName {\n  font-size: 30px;\n  margin-left: 5%; }\n\n.recipeList {\n  position: absolute;\n  top: 20em;\n  width: 100%; }\n", ""]);
+	exports.push([module.id, "body {\n  font-family: 'Open Sans', sans-serif;\n  background-image: url(\"/css/china.png\"); }\n\n.container {\n  padding-right: 15px;\n  padding-left: 15px;\n  margin-right: auto;\n  margin-left: auto;\n  position: relative; }\n\n@media (min-width: 768px) {\n  .container {\n    width: 750px; } }\n\n@media (min-width: 992px) {\n  .container {\n    width: 970px; } }\n\n@media (min-width: 1200px) {\n  .container {\n    width: 1170px; } }\n\n.header {\n  position: absolute;\n  font-size: 100px;\n  padding: 0px;\n  font-family: 'Cairo', sans-serif;\n  font-weight: 700;\n  left: 5%;\n  width: 100%; }\n\n.headerOne {\n  position: absolute;\n  top: -0.8em; }\n\n.headerTwo {\n  position: absolute;\n  top: -0.1em; }\n\n.addButton {\n  position: absolute;\n  font-size: 75px;\n  left: 85%;\n  top: 1.6em; }\n\n.editButton {\n  position: relative;\n  font-size: 50px;\n  color: #388e3c;\n  border-radius: 100%;\n  border: 6px solid;\n  margin-bottom: 0.75em;\n  left: 73%; }\n\n.deleteButton {\n  position: relative;\n  font-size: 50px;\n  color: #c62828;\n  border-radius: 100%;\n  border: 6px solid;\n  margin-bottom: 0.75em;\n  left: 78%; }\n\n.recipe {\n  border-style: solid;\n  border-width: 1px;\n  margin: 1em 0em;\n  border-color: #FFFFFF;\n  background-color: #FFFFFF;\n  box-shadow: 0px 03px 10px #888888; }\n\n.recipeExpand {\n  height: auto; }\n\n.recipeName {\n  font-size: 30px;\n  margin-left: 5%; }\n\n.recipeList {\n  position: absolute;\n  top: 20em;\n  width: 100%; }\n\n.ingredientHeading {\n  font-size: 25px;\n  font-family: 'Cairo', sans-serif;\n  font-weight: 700;\n  margin: 1em 0em 0em 10%; }\n\n.ingredientList {\n  position: relative;\n  font-size: 18px;\n  list-style: circle;\n  margin-left: 9%; }\n", ""]);
 
 	// exports
 
