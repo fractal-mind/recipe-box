@@ -7,8 +7,8 @@ const target = document.getElementById('root');
 
 let recipes = (typeof localStorage["recipeBox"] != "undefined") ?
   JSON.parse(localStorage["recipeBox"]) :
-  [{key: 0, name: "French Toast", ingredients: ["Bread", "Eggs", "Milk"], expand: false},
-   {key: 1, name: "PB&J", ingredients: ["Bread", "Peanut Butter", "Jelly"], expand: false}
+  [{key: 0, name: "French Toast", ingredients: ["Bread", "Eggs", "Milk"], expand: false, edit: false},
+   {key: 1, name: "PB&J", ingredients: ["Bread", "Peanut Butter", "Jelly"], expand: false, edit: false}
   ]
 let currentKey = (recipes.length - 1);
 
@@ -39,7 +39,7 @@ class AddButton extends React.Component {
   render() {
     let addCard = () => {
       currentKey++;
-      recipes.splice(0, 0, {key: currentKey, name: "New Recipe", ingredients: ["Add some Ingredients!"], expand: false});
+      recipes.splice(0, 0, {key: currentKey, name: "New Recipe", ingredients: ["Add some Ingredients!"], expand: true, edit: true});
       update();
     }
     return (
@@ -48,18 +48,42 @@ class AddButton extends React.Component {
   }
 }
 
+
+//Buttons define a function, and then simply call that function on click, using props to understand on what data the operation should be performed.
+
 class EditButton extends React.Component {
   render(){
+    let editCard = () => {
+      recipes[this.props.index].edit = true;
+      update();
+    }
     return(
-      <i className="editButton material-icons">list</i>
+      <i className="editButton material-icons" onClick={() => editCard()}>list</i>
+    )
+  }
+}
+
+class SaveButton extends React.Component {
+  render(){
+    let saveCard = () => {
+      recipes[this.props.index].edit = false;
+      recipes[this.props.index].name = this.props.newName;
+      update();
+    }
+    return (
+      <i className="saveButton material-icons" onClick={() => saveCard()}>save</i>
     )
   }
 }
 
 class DeleteButton extends React.Component {
   render(){
+    let deleteCard = () => {
+      recipes.splice(this.props.index, 1);
+      update();
+    }
     return(
-      <i className="deleteButton material-icons">delete</i>
+      <i className="deleteButton material-icons" onClick={() => deleteCard()}>delete</i>
     )
   }
 }
@@ -68,14 +92,14 @@ class RecipeList extends React.Component {
     render(){
     return (
       <div className="recipeList">
-      { recipes.map(recipe => <Recipe key={recipe.key} name={recipe.name} ingredients={recipe.ingredients} expand={recipe.expand} index={recipes.indexOf(recipe)} />) }
+      { recipes.map(recipe => <Recipe key={recipe.key} name={recipe.name} ingredients={recipe.ingredients} expand={recipe.expand} index={recipes.indexOf(recipe)} edit={recipe.edit}/>) }
       </div>
     )
   }
 }
 
 class Recipe extends React.Component {
-
+//This is where we define all the behavior for the recipe cards.
   render(){
   //Handles toggling of card size
     let expandCard = () => {
@@ -91,26 +115,69 @@ class Recipe extends React.Component {
       }
     }
 
-
+//here we determine which kind of card we should return.
     if (this.props.expand === true) {
-      return (
-        <div className="recipe recipeExpand" onClick={() => {expandCard()}} >
-          <p className="recipeName">{this.props.name}</p>
-        <IngredientList list={this.props.ingredients}/>
-      <EditButton />
-      <DeleteButton />
-        </div>
-      )
+      if (this.props.edit === true) {
+        return (
+          <EditCard key={this.props.key} name={this.props.name} ingredients={this.props.ingredients} expand={this.props.expand} index={this.props.index} toggle={expandCard} />
+        )
+      } else {
+          return (
+            <ExpandedCard key={this.props.key} name={this.props.name} ingredients={this.props.ingredients} expand={this.props.expand} index={this.props.index} toggle={expandCard} />
+          ) }
     }
     else {
       return(
-      <div className="recipe" onClick={() => {expandCard()}} >
-        <p className="recipeName">{this.props.name}</p>
-      </div>
-    )}
+        <CollapsedCard key={this.props.key} name={this.props.name} ingredients={this.props.ingredients} expand={this.props.expand} index={this.props.index} toggle={expandCard} />
+      )}
 
   }
 }
+
+class ExpandedCard extends React.Component {
+  render(){
+    return(
+      <div className="recipe recipeExpand">
+        <div className="expandedRecipeHeader" onClick={() => this.props.toggle()}>
+          <p className="recipeName recipeNameExpanded">{this.props.name} </p>
+        </div>
+        <IngredientList list={this.props.ingredients}/>
+        <EditButton index={this.props.index}/>
+        <DeleteButton index={this.props.index}/>
+      </div>
+    )
+  }
+}
+
+class CollapsedCard extends React.Component {
+  render(){
+    return(
+      <div className="recipe" onClick={() => this.props.toggle()}>
+        <p className="recipeName">{this.props.name}</p>
+      </div>
+    )
+  }
+}
+
+class EditCard extends React.Component {
+  render(){
+    let editedName = "";
+    let handleChange = () => {
+      console.log(this);
+    }
+    return (
+      <form className="recipe recipeExpand">
+        <div className="expandedRecipeHeaderEdit">
+          <input className="recipeName recipeNameEdit" type="text" name="name" value="help" onChange={handleChange.bind(this)}/>
+        </div>
+        <IngredientList list={this.props.ingredients}/>
+        <SaveButton index={this.props.index}/>
+        <DeleteButton index={this.props.index}/>
+      </form>
+    )
+  }
+}
+
 
 class IngredientList extends React.Component {
   render(){

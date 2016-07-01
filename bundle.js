@@ -68,7 +68,7 @@
 
 	var target = document.getElementById('root');
 
-	var recipes = typeof localStorage["recipeBox"] != "undefined" ? JSON.parse(localStorage["recipeBox"]) : [{ key: 0, name: "French Toast", ingredients: ["Bread", "Eggs", "Milk"], expand: false }, { key: 1, name: "PB&J", ingredients: ["Bread", "Peanut Butter", "Jelly"], expand: false }];
+	var recipes = typeof localStorage["recipeBox"] != "undefined" ? JSON.parse(localStorage["recipeBox"]) : [{ key: 0, name: "French Toast", ingredients: ["Bread", "Eggs", "Milk"], expand: false, edit: false }, { key: 1, name: "PB&J", ingredients: ["Bread", "Peanut Butter", "Jelly"], expand: false, edit: false }];
 	var currentKey = recipes.length - 1;
 
 	var Layout = function (_React$Component) {
@@ -142,7 +142,7 @@
 	    value: function render() {
 	      var addCard = function addCard() {
 	        currentKey++;
-	        recipes.splice(0, 0, { key: currentKey, name: "New Recipe", ingredients: ["Add some Ingredients!"], expand: false });
+	        recipes.splice(0, 0, { key: currentKey, name: "New Recipe", ingredients: ["Add some Ingredients!"], expand: true, edit: true });
 	        update();
 	      };
 	      return _react2.default.createElement(
@@ -158,6 +158,8 @@
 	  return AddButton;
 	}(_react2.default.Component);
 
+	//Buttons define a function, and then simply call that function on click, using props to understand on what data the operation should be performed.
+
 	var EditButton = function (_React$Component4) {
 	  _inherits(EditButton, _React$Component4);
 
@@ -170,9 +172,17 @@
 	  _createClass(EditButton, [{
 	    key: 'render',
 	    value: function render() {
+	      var _this5 = this;
+
+	      var editCard = function editCard() {
+	        recipes[_this5.props.index].edit = true;
+	        update();
+	      };
 	      return _react2.default.createElement(
 	        'i',
-	        { className: 'editButton material-icons' },
+	        { className: 'editButton material-icons', onClick: function onClick() {
+	            return editCard();
+	          } },
 	        'list'
 	      );
 	    }
@@ -181,8 +191,40 @@
 	  return EditButton;
 	}(_react2.default.Component);
 
-	var DeleteButton = function (_React$Component5) {
-	  _inherits(DeleteButton, _React$Component5);
+	var SaveButton = function (_React$Component5) {
+	  _inherits(SaveButton, _React$Component5);
+
+	  function SaveButton() {
+	    _classCallCheck(this, SaveButton);
+
+	    return _possibleConstructorReturn(this, Object.getPrototypeOf(SaveButton).apply(this, arguments));
+	  }
+
+	  _createClass(SaveButton, [{
+	    key: 'render',
+	    value: function render() {
+	      var _this7 = this;
+
+	      var saveCard = function saveCard() {
+	        recipes[_this7.props.index].edit = false;
+	        recipes[_this7.props.index].name = _this7.props.newName;
+	        update();
+	      };
+	      return _react2.default.createElement(
+	        'i',
+	        { className: 'saveButton material-icons', onClick: function onClick() {
+	            return saveCard();
+	          } },
+	        'save'
+	      );
+	    }
+	  }]);
+
+	  return SaveButton;
+	}(_react2.default.Component);
+
+	var DeleteButton = function (_React$Component6) {
+	  _inherits(DeleteButton, _React$Component6);
 
 	  function DeleteButton() {
 	    _classCallCheck(this, DeleteButton);
@@ -193,9 +235,17 @@
 	  _createClass(DeleteButton, [{
 	    key: 'render',
 	    value: function render() {
+	      var _this9 = this;
+
+	      var deleteCard = function deleteCard() {
+	        recipes.splice(_this9.props.index, 1);
+	        update();
+	      };
 	      return _react2.default.createElement(
 	        'i',
-	        { className: 'deleteButton material-icons' },
+	        { className: 'deleteButton material-icons', onClick: function onClick() {
+	            return deleteCard();
+	          } },
 	        'delete'
 	      );
 	    }
@@ -204,8 +254,8 @@
 	  return DeleteButton;
 	}(_react2.default.Component);
 
-	var RecipeList = function (_React$Component6) {
-	  _inherits(RecipeList, _React$Component6);
+	var RecipeList = function (_React$Component7) {
+	  _inherits(RecipeList, _React$Component7);
 
 	  function RecipeList() {
 	    _classCallCheck(this, RecipeList);
@@ -220,7 +270,7 @@
 	        'div',
 	        { className: 'recipeList' },
 	        recipes.map(function (recipe) {
-	          return _react2.default.createElement(Recipe, { key: recipe.key, name: recipe.name, ingredients: recipe.ingredients, expand: recipe.expand, index: recipes.indexOf(recipe) });
+	          return _react2.default.createElement(Recipe, { key: recipe.key, name: recipe.name, ingredients: recipe.ingredients, expand: recipe.expand, index: recipes.indexOf(recipe), edit: recipe.edit });
 	        })
 	      );
 	    }
@@ -229,8 +279,8 @@
 	  return RecipeList;
 	}(_react2.default.Component);
 
-	var Recipe = function (_React$Component7) {
-	  _inherits(Recipe, _React$Component7);
+	var Recipe = function (_React$Component8) {
+	  _inherits(Recipe, _React$Component8);
 
 	  function Recipe() {
 	    _classCallCheck(this, Recipe);
@@ -240,49 +290,33 @@
 
 	  _createClass(Recipe, [{
 	    key: 'render',
+
+	    //This is where we define all the behavior for the recipe cards.
 	    value: function render() {
-	      var _this8 = this;
+	      var _this12 = this;
 
 	      //Handles toggling of card size
 	      var expandCard = function expandCard() {
-	        if (recipes[_this8.props.index].expand === true) {
-	          recipes[_this8.props.index].expand = false;
+	        if (recipes[_this12.props.index].expand === true) {
+	          recipes[_this12.props.index].expand = false;
 	          console.log("Collapsed");
 	          update();
 	        } else {
-	          recipes[_this8.props.index].expand = true;
+	          recipes[_this12.props.index].expand = true;
 	          console.log("Expanded");
 	          update();
 	        }
 	      };
 
+	      //here we determine which kind of card we should return.
 	      if (this.props.expand === true) {
-	        return _react2.default.createElement(
-	          'div',
-	          { className: 'recipe recipeExpand', onClick: function onClick() {
-	              expandCard();
-	            } },
-	          _react2.default.createElement(
-	            'p',
-	            { className: 'recipeName' },
-	            this.props.name
-	          ),
-	          _react2.default.createElement(IngredientList, { list: this.props.ingredients }),
-	          _react2.default.createElement(EditButton, null),
-	          _react2.default.createElement(DeleteButton, null)
-	        );
+	        if (this.props.edit === true) {
+	          return _react2.default.createElement(EditCard, { key: this.props.key, name: this.props.name, ingredients: this.props.ingredients, expand: this.props.expand, index: this.props.index, toggle: expandCard });
+	        } else {
+	          return _react2.default.createElement(ExpandedCard, { key: this.props.key, name: this.props.name, ingredients: this.props.ingredients, expand: this.props.expand, index: this.props.index, toggle: expandCard });
+	        }
 	      } else {
-	        return _react2.default.createElement(
-	          'div',
-	          { className: 'recipe', onClick: function onClick() {
-	              expandCard();
-	            } },
-	          _react2.default.createElement(
-	            'p',
-	            { className: 'recipeName' },
-	            this.props.name
-	          )
-	        );
+	        return _react2.default.createElement(CollapsedCard, { key: this.props.key, name: this.props.name, ingredients: this.props.ingredients, expand: this.props.expand, index: this.props.index, toggle: expandCard });
 	      }
 	    }
 	  }]);
@@ -290,8 +324,114 @@
 	  return Recipe;
 	}(_react2.default.Component);
 
-	var IngredientList = function (_React$Component8) {
-	  _inherits(IngredientList, _React$Component8);
+	var ExpandedCard = function (_React$Component9) {
+	  _inherits(ExpandedCard, _React$Component9);
+
+	  function ExpandedCard() {
+	    _classCallCheck(this, ExpandedCard);
+
+	    return _possibleConstructorReturn(this, Object.getPrototypeOf(ExpandedCard).apply(this, arguments));
+	  }
+
+	  _createClass(ExpandedCard, [{
+	    key: 'render',
+	    value: function render() {
+	      var _this14 = this;
+
+	      return _react2.default.createElement(
+	        'div',
+	        { className: 'recipe recipeExpand' },
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'expandedRecipeHeader', onClick: function onClick() {
+	              return _this14.props.toggle();
+	            } },
+	          _react2.default.createElement(
+	            'p',
+	            { className: 'recipeName recipeNameExpanded' },
+	            this.props.name,
+	            ' '
+	          )
+	        ),
+	        _react2.default.createElement(IngredientList, { list: this.props.ingredients }),
+	        _react2.default.createElement(EditButton, { index: this.props.index }),
+	        _react2.default.createElement(DeleteButton, { index: this.props.index })
+	      );
+	    }
+	  }]);
+
+	  return ExpandedCard;
+	}(_react2.default.Component);
+
+	var CollapsedCard = function (_React$Component10) {
+	  _inherits(CollapsedCard, _React$Component10);
+
+	  function CollapsedCard() {
+	    _classCallCheck(this, CollapsedCard);
+
+	    return _possibleConstructorReturn(this, Object.getPrototypeOf(CollapsedCard).apply(this, arguments));
+	  }
+
+	  _createClass(CollapsedCard, [{
+	    key: 'render',
+	    value: function render() {
+	      var _this16 = this;
+
+	      return _react2.default.createElement(
+	        'div',
+	        { className: 'recipe', onClick: function onClick() {
+	            return _this16.props.toggle();
+	          } },
+	        _react2.default.createElement(
+	          'p',
+	          { className: 'recipeName' },
+	          this.props.name
+	        )
+	      );
+	    }
+	  }]);
+
+	  return CollapsedCard;
+	}(_react2.default.Component);
+
+	var EditCard = function (_React$Component11) {
+	  _inherits(EditCard, _React$Component11);
+
+	  function EditCard() {
+	    _classCallCheck(this, EditCard);
+
+	    return _possibleConstructorReturn(this, Object.getPrototypeOf(EditCard).apply(this, arguments));
+	  }
+
+	  _createClass(EditCard, [{
+	    key: 'render',
+	    value: function render() {
+	      var _this18 = this;
+
+	      var editedName = "";
+	      var handleChange = function handleChange() {
+	        console.log(_this18);
+	      };
+	      return _react2.default.createElement(
+	        'form',
+	        { className: 'recipe recipeExpand' },
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'expandedRecipeHeaderEdit' },
+	          _react2.default.createElement('input', { className: 'recipeName recipeNameEdit', type: 'text', name: 'name', value: 'help', onChange: handleChange.bind(this) })
+	        ),
+	        _react2.default.createElement(IngredientList, { list: this.props.ingredients }),
+	        _react2.default.createElement(SaveButton, { index: this.props.index }),
+	        _react2.default.createElement(DeleteButton, { index: this.props.index })
+	      );
+	    }
+	  }]);
+
+	  return EditCard;
+	}(_react2.default.Component);
+
+	var IngredientList = function (_React$Component12) {
+	  _inherits(IngredientList, _React$Component12);
 
 	  function IngredientList() {
 	    _classCallCheck(this, IngredientList);
@@ -302,7 +442,7 @@
 	  _createClass(IngredientList, [{
 	    key: 'render',
 	    value: function render() {
-	      var _this10 = this;
+	      var _this20 = this;
 
 	      return _react2.default.createElement(
 	        'div',
@@ -316,7 +456,7 @@
 	          'ul',
 	          { className: 'ingredientList' },
 	          this.props.list.map(function (item) {
-	            return _react2.default.createElement(Ingredient, { item: item, key: _this10.props.list.indexOf(item) });
+	            return _react2.default.createElement(Ingredient, { item: item, key: _this20.props.list.indexOf(item) });
 	          })
 	        )
 	      );
@@ -326,8 +466,8 @@
 	  return IngredientList;
 	}(_react2.default.Component);
 
-	var Ingredient = function (_React$Component9) {
-	  _inherits(Ingredient, _React$Component9);
+	var Ingredient = function (_React$Component13) {
+	  _inherits(Ingredient, _React$Component13);
 
 	  function Ingredient() {
 	    _classCallCheck(this, Ingredient);
@@ -20024,7 +20164,7 @@
 
 
 	// module
-	exports.push([module.id, "body {\n  font-family: 'Open Sans', sans-serif;\n  background-image: url(\"/css/china.png\"); }\n\n.container {\n  padding-right: 15px;\n  padding-left: 15px;\n  margin-right: auto;\n  margin-left: auto;\n  position: relative; }\n\n@media (min-width: 768px) {\n  .container {\n    width: 750px; } }\n\n@media (min-width: 992px) {\n  .container {\n    width: 970px; } }\n\n@media (min-width: 1200px) {\n  .container {\n    width: 1170px; } }\n\n.header {\n  position: absolute;\n  font-size: 100px;\n  padding: 0px;\n  font-family: 'Cairo', sans-serif;\n  font-weight: 700;\n  left: 5%;\n  width: 100%; }\n\n.headerOne {\n  position: absolute;\n  top: -0.8em; }\n\n.headerTwo {\n  position: absolute;\n  top: -0.1em; }\n\n.addButton {\n  position: absolute;\n  font-size: 75px;\n  left: 85%;\n  top: 1.6em; }\n\n.editButton {\n  position: relative;\n  font-size: 50px;\n  color: #388e3c;\n  border-radius: 100%;\n  border: 6px solid;\n  margin-bottom: 0.75em;\n  left: 73%; }\n\n.deleteButton {\n  position: relative;\n  font-size: 50px;\n  color: #c62828;\n  border-radius: 100%;\n  border: 6px solid;\n  margin-bottom: 0.75em;\n  left: 78%; }\n\n.recipe {\n  border-style: solid;\n  border-width: 1px;\n  margin: 1em 0em;\n  border-color: #FFFFFF;\n  background-color: #FFFFFF;\n  box-shadow: 0px 03px 10px #888888; }\n\n.recipeExpand {\n  height: auto; }\n\n.recipeName {\n  font-size: 30px;\n  margin-left: 5%; }\n\n.recipeList {\n  position: absolute;\n  top: 20em;\n  width: 100%; }\n\n.ingredientHeading {\n  font-size: 25px;\n  font-family: 'Cairo', sans-serif;\n  font-weight: 700;\n  margin: 1em 0em 0em 10%; }\n\n.ingredientList {\n  position: relative;\n  font-size: 18px;\n  list-style: circle;\n  margin-left: 9%; }\n", ""]);
+	exports.push([module.id, "body {\n  font-family: 'Open Sans', sans-serif;\n  background-image: url(\"/css/lightpaperfibers.png\"); }\n\n.container {\n  padding-right: 15px;\n  padding-left: 15px;\n  margin-right: auto;\n  margin-left: auto;\n  position: relative; }\n\n@media (min-width: 768px) {\n  .container {\n    width: 750px; } }\n\n@media (min-width: 992px) {\n  .container {\n    width: 970px; } }\n\n@media (min-width: 1200px) {\n  .container {\n    width: 1170px; } }\n\n.header {\n  position: absolute;\n  font-size: 100px;\n  padding: 0px;\n  font-family: 'Cairo', sans-serif;\n  font-weight: 700;\n  left: 5%;\n  width: 100%; }\n\n.headerOne {\n  position: absolute;\n  top: -0.8em; }\n\n.headerTwo {\n  position: absolute;\n  top: -0.1em; }\n\n.addButton {\n  position: absolute;\n  font-size: 75px;\n  left: 85%;\n  top: 1.6em; }\n\n.editButton {\n  position: relative;\n  font-size: 50px;\n  color: #388e3c;\n  border-radius: 100%;\n  border: 6px solid;\n  margin-bottom: 0.75em;\n  left: 73%; }\n\n.deleteButton {\n  position: relative;\n  font-size: 50px;\n  color: #c62828;\n  border-radius: 100%;\n  border: 6px solid;\n  margin-bottom: 0.75em;\n  left: 78%; }\n\n.saveButton {\n  position: relative;\n  font-size: 50px;\n  color: #388e3c;\n  border-radius: 100%;\n  border: 6px solid;\n  margin-bottom: 0.75em;\n  left: 73%; }\n\n.recipe {\n  border-style: solid;\n  border-width: 1px;\n  margin: 1em 0em;\n  border-color: #F5F5F5;\n  background-color: #F5F5F5;\n  box-shadow: 0px 03px 10px #888888; }\n\n.recipeExpand {\n  height: auto;\n  background-color: #FFFFFF; }\n\n.expandedRecipeHeader {\n  background-color: #F5F5F5;\n  position: relative;\n  top: -2.5em;\n  height: 103px; }\n\n.expandedRecipeHeaderEdit {\n  position: relative;\n  height: 103px;\n  padding-bottom: 2.5em; }\n\n.recipeName {\n  font-size: 30px;\n  margin-left: 5%;\n  width: 100%; }\n\n.recipeNameExpanded {\n  padding-top: 1em; }\n\n.recipeNameEdit {\n  width: 88%;\n  margin-top: 1em; }\n\n.recipeList {\n  position: absolute;\n  top: 20em;\n  width: 100%; }\n\n.ingredientHeading {\n  font-size: 25px;\n  font-family: 'Cairo', sans-serif;\n  font-weight: 700;\n  margin: 1em 0em 0em 10%; }\n\n.ingredientList {\n  position: relative;\n  font-size: 18px;\n  list-style: circle;\n  margin-left: 9%; }\n", ""]);
 
 	// exports
 
