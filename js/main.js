@@ -12,10 +12,11 @@ let recipes = (typeof localStorage["recipeBox"] != "undefined") ?
   ]
 let currentKey = (recipes.length - 1);
 
+
 class Layout extends React.Component {
   render(){
     return(
-      <div >
+      <div>
       <Header />
       <RecipeList />
       </div>
@@ -35,11 +36,15 @@ class Header extends React.Component {
   }
 }
 
+
+//Buttons define a function, and then simply call that function on click, using props to understand on what data the operation should be performed.
+
+
 class AddButton extends React.Component {
   render() {
     let addCard = () => {
       currentKey++;
-      recipes.splice(0, 0, {key: currentKey, name: "New Recipe", ingredients: ["Add some Ingredients!"], expand: true, edit: true});
+      recipes.splice(0, 0, {key: currentKey, name: "New Recipe", ingredients: ["Add some Ingredients", "separated by commas", "to build your list!"], expand: true, edit: true});
       update();
     }
     return (
@@ -47,9 +52,6 @@ class AddButton extends React.Component {
     )
   }
 }
-
-
-//Buttons define a function, and then simply call that function on click, using props to understand on what data the operation should be performed.
 
 class EditButton extends React.Component {
   render(){
@@ -67,7 +69,8 @@ class SaveButton extends React.Component {
   render(){
     let saveCard = () => {
       recipes[this.props.index].edit = false;
-      recipes[this.props.index].name = this.props.newName;
+      recipes[this.props.index].name = this.props.nameState;
+      recipes[this.props.index].ingredients = this.props.ingredientState;
       update();
     }
     return (
@@ -160,20 +163,44 @@ class CollapsedCard extends React.Component {
 }
 
 class EditCard extends React.Component {
-  render(){
-    let editedName = "";
-    let handleChange = () => {
-      console.log(this);
+
+  constructor(props, context){
+    super(props, context);
+
+    //binding 'this' in constructor so we don't need to remember to bind it to individual props
+    this.handleNameChange = this.handleNameChange.bind(this);
+    this.handleIngredientChange = this.handleIngredientChange.bind(this);
+
+    this.state = {
+      nameValue: this.props.name,
+      ingredientValue: this.props.ingredients.join(", ")
     }
+
+  };
+
+  handleNameChange() {
+    this.setState({
+      nameValue: document.getElementById("nameEdit").value
+    });
+  };
+  handleIngredientChange() {
+    this.setState({
+      ingredientValue: document.getElementById("ingredientsEdit").value
+    });
+  };
+
+
+  render(){
     return (
-      <form className="recipe recipeExpand">
+      <div className="recipe recipeExpand">
         <div className="expandedRecipeHeaderEdit">
-          <input className="recipeName recipeNameEdit" type="text" name="name" value="help" onChange={handleChange.bind(this)}/>
+          <input className="recipeName recipeNameEdit" type="text" id="nameEdit" defaultValue={this.state.nameValue} onChange={this.handleNameChange}/>
         </div>
-        <IngredientList list={this.props.ingredients}/>
-        <SaveButton index={this.props.index}/>
+        <p className="ingredientHeading">Ingredients</p>
+        <textarea className="ingredientListEdit" id="ingredientsEdit" defaultValue={this.state.ingredientValue} onChange={this.handleIngredientChange}></textarea>
+        <SaveButton index={this.props.index} nameState={this.state.nameValue} ingredientState={this.state.ingredientValue.split(", ")}/>
         <DeleteButton index={this.props.index}/>
-      </form>
+      </div>
     )
   }
 }
@@ -195,7 +222,6 @@ class IngredientList extends React.Component {
 
 class Ingredient extends React.Component {
   render(){
-    console.log("Rendering " + this.props.item)
     return(
       <li className="ingredient">{this.props.item}</li>
     )
