@@ -68,7 +68,7 @@
 
 	var target = document.getElementById('root');
 
-	var recipes = typeof localStorage["recipeBox"] != "undefined" ? JSON.parse(localStorage["recipeBox"]) : [{ key: 0, name: "French Toast", ingredients: ["Bread", "Eggs", "Milk"], expand: false, edit: false }, { key: 1, name: "PB&J", ingredients: ["Bread", "Peanut Butter", "Jelly"], expand: false, edit: false }];
+	var recipes = typeof localStorage["recipeBox"] != "undefined" ? JSON.parse(localStorage["recipeBox"]) : [{ key: 0, name: "French Toast", ingredients: ["Bread", "Eggs", "Milk"], expand: false, edit: false }, { key: 1, name: "Beef Stew", ingredients: ["Cubed Stew Meat", "Carrots", "Celery", "Potatoes", "Beef Stock", "Worcestershire Sauce", "Bay Leaf"], expand: false, edit: false }];
 	var currentKey = recipes.length - 1;
 
 	var Layout = function (_React$Component) {
