@@ -194,7 +194,7 @@ class EditCard extends React.Component {
     return (
       <div className="recipe recipeExpand">
         <div className="expandedRecipeHeaderEdit">
-          <input className="recipeName recipeNameEdit" type="text" id="nameEdit" defaultValue={this.state.nameValue} onChange={this.handleNameChange}/>
+          <input className="recipeName recipeNameEdit" type="text" id="nameEdit" defaultValue={this.state.nameValue} onChange={this.handleNameChange} />
         </div>
         <p className="ingredientHeading">Ingredients</p>
         <textarea className="ingredientListEdit" id="ingredientsEdit" defaultValue={this.state.ingredientValue} onChange={this.handleIngredientChange}></textarea>
