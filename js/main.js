@@ -19,6 +19,7 @@ class Layout extends React.Component {
       <div>
       <Header />
       <RecipeList />
+      <Footer />
       </div>
     )
   }
@@ -224,6 +225,18 @@ class Ingredient extends React.Component {
   render(){
     return(
       <li className="ingredient">{this.props.item}</li>
+    )
+  }
+}
+
+class Footer extends React.Component {
+  render(){
+    return(
+      <footer id="foot">
+        <div className="container">
+          <a href="//stillwill.net">© 2016 Will Moody</a>
+        </div>
+      </footer>
     )
   }
 }
