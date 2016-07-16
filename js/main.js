@@ -235,6 +235,7 @@ class Footer extends React.Component {
       <footer id="foot">
         <div className="container">
           <a href="//stillwill.net">© 2016 Will Moody</a>
+          <a href="//github.com/fractal-mind/recipe-box" id="attribution">View Source on Github</a>
         </div>
       </footer>
     )
